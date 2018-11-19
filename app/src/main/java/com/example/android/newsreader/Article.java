@@ -17,6 +17,6 @@ public class Article {
 
     public String getTitle() { return title; }
     public String getSectionName() { return sectionName; }
-    public String getPublicationDate() { return publicationDate; }
+    public String getPublicationDate() { return "Published: " + publicationDate; }
     public String getContentURL() { return contentURL; }
 }
