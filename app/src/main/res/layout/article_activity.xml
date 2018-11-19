@@ -6,9 +6,8 @@
 
     <ListView
         android:id="@+id/list"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/DefaultListStyle"
+        android:minHeight="@dimen/list_item_height"
         android:divider="@null"
         android:dividerHeight="0dp" />
 

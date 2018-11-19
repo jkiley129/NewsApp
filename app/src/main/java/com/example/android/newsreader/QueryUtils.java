@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -119,22 +120,24 @@ public final class QueryUtils {
         try {
 
             JSONObject baseJsonResponse = new JSONObject(articlesJSON);
+            String baseJSONString = baseJsonResponse.toString(2);
+            Log.i("QueryUtils", baseJSONString);
+            JSONObject response = baseJsonResponse.getJSONObject("response");
 
-            JSONArray articlesArray = baseJsonResponse.getJSONArray("results");
+            JSONArray articlesArray = response.getJSONArray("results");
 
             for (int i = 0; i < articlesArray.length(); i++) {
 
-                JSONObject currentEarthquake = articlesArray.getJSONObject(i);
+                JSONObject currentArticle = articlesArray.getJSONObject(i);
 
-                JSONObject properties = currentEarthquake.getJSONObject("properties");
+                String title = currentArticle.getString("webTitle");
+                String sectionName = currentArticle.getString("sectionName");
+                String webURL = currentArticle.getString("webUrl");
 
-                String title = properties.getString("webTitle");
-                String sectionName = properties.getString("sectionName");
-                String webURL = properties.getString("webUrl");
+                SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+                Date articleDate = myFormat.parse(currentArticle.getString("webPublicationDate"));
 
-                SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
-                Date myDate = myFormat.parse(properties.getString("webPublicationDate"));
-                String dateString = myDate.toString();
+                String dateString = DateFormat.getDateInstance(DateFormat.SHORT).format(articleDate);
 
                 Article article = new Article(title, sectionName, dateString, webURL);
 
