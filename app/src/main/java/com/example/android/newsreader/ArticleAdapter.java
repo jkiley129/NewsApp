@@ -40,9 +40,4 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
 
         return listItemView;
     }
-
-    private String formatDate(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
-        return dateFormat.format(dateObject);
-    }
 }

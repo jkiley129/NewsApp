@@ -2,8 +2,11 @@ package com.example.android.newsreader;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -11,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,6 +40,14 @@ public class ArticleActivity extends AppCompatActivity
         setContentView(R.layout.article_activity);
 
         ListView articleListView = findViewById(R.id.list);
+
+        articleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Article currentArticle = adapter.getItem(position);
+                openArticleInBrowser(currentArticle.getContentURL());
+            }
+        });
 
         mEmptyStateTextView = findViewById(R.id.empty_view);
         articleListView.setEmptyView(mEmptyStateTextView);
@@ -87,5 +99,10 @@ public class ArticleActivity extends AppCompatActivity
     @Override
     public void onLoaderReset(Loader<List<Article>> loader) {
         adapter.clear();
+    }
+
+    public void openArticleInBrowser(String articleURL) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleURL));
+        startActivity(browserIntent);
     }
 }
