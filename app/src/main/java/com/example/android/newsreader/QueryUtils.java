@@ -15,7 +15,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public final class QueryUtils {
@@ -127,20 +130,22 @@ public final class QueryUtils {
 
                 String title = properties.getString("webTitle");
                 String sectionName = properties.getString("sectionName");
-                String publicationDate = properties.getString("webPublicationDate");
                 String webURL = properties.getString("webUrl");
 
-                Article article = new Article(title, sectionName, publicationDate, webURL);
+                SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
+                Date myDate = myFormat.parse(properties.getString("webPublicationDate"));
+                String dateString = myDate.toString();
+
+                Article article = new Article(title, sectionName, dateString, webURL);
 
                 // Add the new {@link Earthquake} to the list of earthquakes.
                 articles.add(article);
             }
 
         } catch (JSONException e) {
-            // If an error is thrown when executing any of the above statements in the "try" block,
-            // catch the exception here, so the app doesn't crash. Print a log message
-            // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the article JSON results", e);
+        } catch (ParseException e) {
+            Log.e("QueryUtils", "Problem parsing date from JSON", e);
         }
 
         // Return the list of earthquakes
