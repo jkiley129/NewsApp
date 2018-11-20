@@ -139,7 +139,11 @@ public final class QueryUtils {
 
                 String dateString = DateFormat.getDateInstance(DateFormat.SHORT).format(articleDate);
 
-                Article article = new Article(title, sectionName, dateString, webURL);
+                JSONArray tagsArray = currentArticle.getJSONArray("tags");
+                JSONObject tagObject = tagsArray.getJSONObject(0);
+                String authorName = tagObject.getString("webTitle");
+
+                Article article = new Article(title, sectionName, authorName, dateString, webURL);
 
                 // Add the new {@link Earthquake} to the list of earthquakes.
                 articles.add(article);

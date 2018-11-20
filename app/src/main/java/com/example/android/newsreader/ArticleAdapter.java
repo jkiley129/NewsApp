@@ -31,12 +31,14 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         TextView sectionTitleView = listItemView.findViewById(R.id.section_name);
         TextView datePublishedView = listItemView.findViewById(R.id.publication_date);
         TextView articleTitleView = listItemView.findViewById(R.id.article_title);
+        TextView authorTextView = listItemView.findViewById(R.id.author_name);
 
         Article currentArticle = getItem(position);
 
         sectionTitleView.setText(currentArticle.getSectionName());
         articleTitleView.setText(currentArticle.getTitle());
         datePublishedView.setText(currentArticle.getPublicationDate());
+        authorTextView.setText(currentArticle.getAuthorName());
 
         return listItemView;
     }

@@ -79,6 +79,7 @@ public class ArticleActivity extends AppCompatActivity
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("q", "tech");
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
         uriBuilder.appendQueryParameter("api-key", GUARDIAN_API_KEY);
 
         return new ArticleLoader(this, uriBuilder.toString());
